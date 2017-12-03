@@ -1,0 +1,73 @@
+<div style="overflow-x: hidden;">
+  <header class="masthead" style="background-image: url('<%= result.images[0].url%>')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1 id="titleMain"> <%=result.title %> </h1>
+            <span class="subheading"></span>
+            <br />
+            <div id="deletButton" class="text-center text-white"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <div class="contain-button">
+      <br />
+      <div id="alertMessage"></div>
+      <br />
+      <div class="form-group">
+        <input type="text" class="form-control" id="postEditTitle" aria-describedby="title" placeholder="Title" />
+      </div>
+
+      <div class="form-group">
+        <input type="text" class="form-control" id="postEditAuthor" aria-describedby="author" placeholder="Author" />
+      </div>
+
+      <div class="form-group">
+        <input type="text" class="form-control" id="postEditHeading" aria-describedby="heading" placeholder="Heading" />
+      </div>
+
+      <div class="form-group">
+        <input type="text" class="form-control" id="postEditSubHeading" aria-describedby="subheading" placeholder="Subheading" />
+      </div>
+
+      <div class="form-group">
+        <textarea placeholder="Contents" class="form-control" id="postEditContent" rows="18"></textarea>
+      </div>
+      <br />
+      <div class="row" id="displayUploadedImages"></div>
+      <br />
+      <button onclick="handleUpdate()" type="button" class="btn btn-primary btn-block">
+      Update Post
+    </button>
+      <br />
+      <br />
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete Post</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+          <br />
+          <b> Are You Sure You Want To Delete This Blog Post? </b>
+          <br /><br />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+          <button onclick="deletePost()" type="button" class="btn btn-warning">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

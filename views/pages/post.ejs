@@ -1,0 +1,82 @@
+<!-- Page Header -->
+<header class="masthead" style="background-image: url('<%= result.images[0].url %>')">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="post-heading">
+          <h1><%= result.title %></h1>
+          <h2 class="subheading">
+            <%= result.subheading %>
+          </h2>
+          <span class="meta">Posted by
+                <a href="#"><%= result.author %></a>
+                on <%= result.date.toDateString() %></span>
+          <br />
+          <div id="editButton" class="text-center text-white"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Post Content -->
+<article>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+
+        <%for(let i = 0; i < result.body.length; i++){%>
+          <%if(result.body[i] === '[insert image]'){%>
+            <a href="#">
+                <img class="img-fluid" src="<%=result.images[1].url%>" alt="postImage">
+            </a>
+            <span class="caption text-muted">
+              <%=result.heading%>
+            </span>
+            <%}%>
+              <%if(result.body[i] !== '[insert image]'){%>
+                <p>
+                  <%= result.body[i] %>
+                </p>
+                <%}%>
+                  <%}%>
+
+                    <!-- <blockquote class="blockquote">The dreams of yesterday are the hopes of today and the reality of tomorrow. Science has not yet mastered prophecy. We predict too much for the next year and yet far too little for the next ten.</blockquote> -->
+
+                    <!-- <h2 class="section-heading">Reaching for the Stars</h2> -->
+
+      </div>
+    </div>
+  </div>
+</article>
+<br />
+<div class="contain-button">
+  <div style="max-height: 140vh; overflow: scroll;"class="card">
+    <div class="container">
+      <br />
+      <div class="card-header bg-info text-white">
+        <b> Comment Section </b>
+      </div>
+
+      <br />
+      <div class="card-block">
+        <h4 class="card-title">Comment</h4>
+        <div class="form-group">
+          <input type="text" class="form-control" id="commentUsername" aria-describedby="emailHelp" placeholder="username" />
+          <br />
+          <div class="form-group">
+            <textarea placeholder="Write Comment" class="form-control" id="commentBox" rows="7"></textarea>
+          </div>
+        </div>
+      </div>
+      <button onclick="postComment()" type="button" class="btn btn-primary btn-block">Submit</button>
+      <br />
+      <br />
+      <div id="allComments">
+
+      </div>
+    </div>
+    <br/>
+  </div>
+</div>
