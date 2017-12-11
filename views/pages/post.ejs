@@ -25,34 +25,46 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-
-        <%for(let i = 0; i < result.body.length; i++){%>
-          <%if(result.body[i] === '[insert image]'){%>
-            <a href="#">
-                <img class="img-fluid" src="<%=result.images[1].url%>" alt="postImage">
-            </a>
-            <span class="caption text-muted">
+        <% let imageCount = 1 %>
+          <%for(let i = 0; i < result.body.length; i++){%>
+            <%if(result.body[i] === '[insert image]' && imageCount < result.images.length){%>
+              <a href="#">
+                <img class="img-fluid" src="<%=result.images[imageCount].url%>" alt="postImage">
+              </a>
+              <span class="caption text-muted">
               <%=result.heading%>
-            </span>
+              </span>
+              <% imageCount++ %>
             <%}%>
-              <%if(result.body[i] !== '[insert image]'){%>
-                <p>
-                  <%= result.body[i] %>
-                </p>
-                <%}%>
-                  <%}%>
-
-                    <!-- <blockquote class="blockquote">The dreams of yesterday are the hopes of today and the reality of tomorrow. Science has not yet mastered prophecy. We predict too much for the next year and yet far too little for the next ten.</blockquote> -->
-
-                    <!-- <h2 class="section-heading">Reaching for the Stars</h2> -->
-
+            <%if(result.body[i].includes('{') || result.body[i].includes('}')){%>
+              <h3 class="section-heading h4">
+                <% result.body[i] = result.body[i].replace('{', '') %>
+                <% result.body[i] = result.body[i].replace('}', '') %>
+                <%= result.body[i] %>
+                <% result.body.splice(i, 1) %>
+              </h3>
+            <%}%>
+            <%if(result.body[i].includes('<')){%>
+              <blockquote class="blockquote">
+                <% result.body[i] = result.body[i].replace('<', '') %>
+                <% result.body[i] = result.body[i].replace('>', '') %>
+                <%= result.body[i] %>
+                <% result.body.splice(i, 1) %>
+              </blockquote>
+            <%}%>
+            <%if(result.body[i] !== '[insert image]'){%>
+              <p>
+                <%= result.body[i] %>
+              </p>
+            <%}%>
+         <%}%>
       </div>
     </div>
   </div>
 </article>
 <br />
 <div class="contain-button">
-  <div style="max-height: 140vh; overflow: scroll;"class="card">
+  <div style="max-height: 140vh; overflow: scroll;" class="card">
     <div class="container">
       <br />
       <div class="card-header bg-info text-white">
