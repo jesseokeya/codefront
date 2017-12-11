@@ -29,7 +29,7 @@
           <%for(let i = 0; i < result.body.length; i++){%>
             <%if(result.body[i] === '[insert image]' && imageCount < result.images.length){%>
               <a href="#">
-                <img class="img-fluid" src="<%=result.images[imageCount].url%>" alt="postImage">
+                <img class="img-fluid rounded" src="<%=result.images[imageCount].url%>" alt="postImage">
               </a>
               <span class="caption text-muted">
               <%=result.heading%>
