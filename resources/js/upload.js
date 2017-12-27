@@ -94,9 +94,8 @@ const getImageUrls = (metadatas) => {
 }
 
 const displayImageCard = (image, text) => {
-  console.log(image);
   return (`<div class="col-sm-8 col-md-4 col-lg-3 ">
-            <div onclick="changeImage(${image.alt})" class="card">
+            <div onclick="changeImage('${image.alt}')" class="card">
               <img class="card-img img-fluid" src=${image.url} alt="uploaded images">
               <div class="card-img-overlay">
               <h5 class="card-title text-white">${text}</h5>
@@ -105,6 +104,6 @@ const displayImageCard = (image, text) => {
           </div>`);
 }
 
-const changeImage = (image) =>{
+const changeImage = (image) => {
   console.log(image);
 }

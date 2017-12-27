@@ -19,7 +19,7 @@ let handleSockets = () => {
       }
     });
     socket.on('success', (data) => {
-      console.log(data.message);
+      //console.log(data.message);
     });
   }
 }

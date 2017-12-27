@@ -25,16 +25,17 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <% let imageCount = 1 %>
           <%for(let i = 0; i < result.body.length; i++){%>
-            <%if(result.body[i] === '[insert image]' && imageCount < result.images.length){%>
+            <%if(result.body[i].includes('insert image')){%>
+              <% const imageIndex = result.body[i].replace(/[^\d.]/g, '') %>
+              <%if(imageIndex < result.images.length){%>
               <a href="#">
-                <img class="img-fluid rounded" src="<%=result.images[imageCount].url%>" alt="postImage">
+                <img class="img-fluid rounded" src="<%=result.images[imageIndex - 1].url%>" alt="postImage">
               </a>
               <span class="caption text-muted">
               <%=result.heading%>
               </span>
-              <% imageCount++ %>
+              <%}%>
             <%}%>
             <%if(result.body[i].includes('{') || result.body[i].includes('}')){%>
               <h3 class="section-heading h4">
@@ -52,7 +53,7 @@
                 <% result.body.splice(i, 1) %>
               </blockquote>
             <%}%>
-            <%if(result.body[i] !== '[insert image]'){%>
+            <%if(!result.body[i].includes('insert image')){%>
               <p>
                 <%= result.body[i] %>
               </p>

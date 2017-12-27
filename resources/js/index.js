@@ -108,3 +108,17 @@ const editButton = (hrefLink) => {
 const deleteButton = () => {
   return `<button data-toggle="modal" data-target="#myModal" type="button" class="btn btn-danger">Delete Post</button>`
 };
+
+const viewPost = () => {
+  const postNum = windowLocation.replace(/[^\d.]/g, '');
+  const hostUrl = window.location.host;
+  return `<button onclick="redirectToPost('${hostUrl}/post/${postNum}')" class="btn btn-primary text-white" role="button">
+            View Post
+          </button>`
+};
+
+const redirectToPost = (url) => {
+  (!windowLocation.includes('localhost'))
+    ? window.location.href = 'http://' + url
+    : window.location.href = 'https://' + url;
+}

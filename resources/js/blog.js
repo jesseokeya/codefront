@@ -87,6 +87,7 @@ const editCurrentPost = (postNumber) => {
   const check = isNumeric(lastChar);
   if (windowLocation.includes('/admin/edit/post/') && check) {
     $('#deletButton').append(deleteButton());
+    $('#viewPost').append(viewPost());
     $.get(`/api/get/post/${lastChar}`, (result) => {
       const data = result.data;
       $('#postEditTitle').val(data.title);
