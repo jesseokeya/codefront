@@ -29,12 +29,14 @@
             <%if(result.body[i].includes('insert image')){%>
               <% const imageIndex = result.body[i].replace(/[^\d.]/g, '') %>
               <%if(imageIndex < result.images.length){%>
-              <a href="#">
-                <img class="img-fluid rounded" src="<%=result.images[imageIndex - 1].url%>" alt="postImage">
-              </a>
-              <span class="caption text-muted">
-              <%=result.heading%>
-              </span>
+              <div class="text-center">
+                <a href="#">
+                  <img class="img-fluid rounded" src="<%=result.images[imageIndex - 1].url%>" alt="postImage" height="400px" width="400px">
+                </a>
+                <span class="caption text-muted">
+                  <%=result.heading%>
+                </span>
+              </div>
               <%}%>
             <%}%>
             <%if(result.body[i].includes('{') || result.body[i].includes('}')){%>
