@@ -32,7 +32,16 @@ let splitAboutMe = (aboutMe) => {
   return splitContents;
 }
 
+let parseEmaiContents = (requestObject, stringData) => {
+  let result = '';
+  result = stringData.replace('{{email}}', `${requestObject.email}`);
+  result = result.replace('{{name}}', `${requestObject.name}`);
+  result = result.replace('{{message}}', `${requestObject.message}`);
+  return result
+}
+
 module.exports = {
   evaluateBlogContent: evaluateBlogContent,
-  splitAboutMe: splitAboutMe
+  splitAboutMe: splitAboutMe,
+  parseEmaiContents: parseEmaiContents
 }

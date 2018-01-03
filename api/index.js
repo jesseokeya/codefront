@@ -1,7 +1,16 @@
+const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const {credentials, firebase} = require('../config');
+const {credentials, firebase, sendgrid_api} = require('../config');
+const {parseEmaiContents} = require('./helper');
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(sendgrid_api);
+let contactEmailTemp = null
+
+fs.readFile('./email/templates/contact.html', 'utf8', function(err, contents) {
+    contactEmailTemp = contents
+});
 
 /* Post Requests */
 
@@ -43,6 +52,13 @@ router.post('/contact', (req, res) => {
     if (err) {
       throw err;
     } else {
+      const msg = {
+        to: 'jesseokeya@gmail.com',
+        from: 'no-reply@codefront.com',
+        subject: 'codefront contact',
+        html: parseEmaiContents(req.body, contactEmailTemp)
+      };
+      sgMail.send(msg);
       res.send({data: req.body, status: 200, message: 'contact successfully saved'});
     }
   });
