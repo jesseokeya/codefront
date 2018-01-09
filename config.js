@@ -1,4 +1,3 @@
-const sendgrid_contd = '6k0e5skR9SYILzj63ra0PQq8htlXo0eLPi3NI0axQSo';
 const config = {
   home: [
     '/', '/blog', '/home'
@@ -21,8 +20,7 @@ const config = {
     projectId: "melissas-blog",
     storageBucket: "melissas-blog.appspot.com",
     messagingSenderId: "440662663872"
-  },
-  sendgrid_api: `SG.zigtfTslTrSJh0nrzPtzIA.` + sendgrid_contd
+  }
 }
 
 module.exports = config;

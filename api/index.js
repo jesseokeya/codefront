@@ -1,19 +1,22 @@
-const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const {credentials, firebase, sendgrid_api} = require('../config');
+const {credentials, firebase} = require('../config');
 const {parseEmaiContents} = require('./helper');
-const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(sendgrid_api);
-let contactEmailTemp = null
+const axios = require('axios');
+let contactEmailTemp = null;
 
-fs.readFile('./email/templates/contact.html', 'utf8', function(err, contents) {
-    contactEmailTemp = contents
+let api_keys = null;
+const _urlApiKeys = `https://notify-dev.herokuapp.com/api/api_keys`;
+axios.get(_urlApiKeys).then((response) => {
+  api_keys = response.data;
+}).catch((error) => {
+  if (error) {
+    throw err;
+  };
 });
 
 /* Post Requests */
-
 router.post('/create', (req, res) => {
   const postSchema = require('../models');
   const post = mongoose.model('post');
@@ -52,13 +55,61 @@ router.post('/contact', (req, res) => {
     if (err) {
       throw err;
     } else {
-      const msg = {
-        to: 'jesseokeya@gmail.com',
-        from: 'no-reply@codefront.com',
-        subject: 'codefront contact',
-        html: parseEmaiContents(req.body, contactEmailTemp)
-      };
-      sgMail.send(msg);
+      if (req.body.email) {
+        const sendwithus_key = api_keys.sendwithus_key;
+        const email_config = {
+          template: api_keys.template,
+          recipient: {
+            address: 'jesseokeya@gmail.com'
+          },
+          template_data: {
+            first_name: req.body.name,
+            notify_message: req.body.message
+          },
+          sender: {
+            address: 'no-rely@codefront.com', // required
+            name: 'codefront'
+          },
+          esp_account: api_keys.esp_account
+        }
+        const emailPostRequest = {
+          sendwithus_key: sendwithus_key,
+          email_config: email_config
+        };
+        const _url = `https://notify-dev.herokuapp.com/api/send_email`;
+        axios.post(_url, emailPostRequest).then((response) => {
+          return response;
+        }).catch((error) => {
+          if(error){
+            throw error;
+          }
+        });
+        /* accountSid and authToken from twilio */
+        const twilio_config = {
+          accountSid: api_keys.twilio_config.accountSid,
+          authToken: api_keys.twilio_config.authToken
+        }
+
+        const message_config = {
+          to: '+16134135540',
+          from: '+16042293585',
+          body: req.body.message + `- from ${req.body.name}`
+        }
+
+        /* expected sample JSON object */
+        const textPostRequest = {
+          twilio_config: twilio_config,
+          message_config: message_config
+        }
+        const _url0 = `https://notify-dev.herokuapp.com/api/send_text`;
+        axios.post(_url0, textPostRequest).then(function(response) {
+          return response;
+        }).catch(function(error) {
+          if (error) {
+            throw error;
+          }
+        });
+      }
       res.send({data: req.body, status: 200, message: 'contact successfully saved'});
     }
   });
