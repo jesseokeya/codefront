@@ -86,6 +86,7 @@ const editCurrentPost = (postNumber) => {
   const lastChar = postNumber;
   const check = isNumeric(lastChar);
   if (windowLocation.includes('/admin/edit/post/') && check) {
+    $('#hiddenUpload').hide();
     $('#deletButton').append(deleteButton());
     $('#viewPost').append(viewPost());
     $.get(`/api/get/post/${lastChar}`, (result) => {

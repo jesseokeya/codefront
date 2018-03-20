@@ -1,14 +1,18 @@
 /* Handle Image Uploads To Server Through Firebase */
 let imagesUploaded = [];
+let changeImageName = null;
+let storage = null;
 
 $(document).ready(() => {
   const check = (windowLocation.includes('post'));
   const correctUrl = (windowLocation === '/admin/create-post');
-  if (check && correctUrl) {
+  const secondCheck = (windowLocation.includes('/admin/edit/post/'));
+  if ((check && correctUrl) || secondCheck) {
     $.get('/api/getFirebaseConfig', (data, err) => {
       return data;
     }).then((config) => {
       firebase.initializeApp(config);
+      stoage = firebase.storage();
       handleUpload();
     });
   }
@@ -16,7 +20,8 @@ $(document).ready(() => {
 
 const handleUpload = () => {
   if (firebase) {
-    firebase.storage().ref().constructor.prototype.putFiles = function(files) {
+    storage = firebase.storage();
+    storage.ref().constructor.prototype.putFiles = function(files) {
       const ref = this;
       return Promise.all($.map(files, function(file) {
         const filename = file.name.replace(/ /g, '');
@@ -104,6 +109,34 @@ const displayImageCard = (image, text) => {
           </div>`);
 }
 
-const changeImage = (image) => {
-  console.log(image);
+const changeImage = (imageName) => {
+  $('#hiddenUpload').click();
+  changeImageName = imageName;
+}
+
+function updateImage(e) {
+
+  if (changeImageName !== null) {
+    const allInputs = document.getElementsByTagName('input');
+    const file = allInputs[allInputs.length - 1].files[0];
+    let storageRef = storage.ref(`blogImages/${changeImageName}`);
+    let task = storageRef.put(file);
+    task.on('state_changed', snapshot => {
+      const percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      const progress_bar = percentage;
+      if (progress_bar >= 100) {
+        $('#imageUploadSucess').append(showWarningMessage('Success!!', 'Image Has Been Successfully Updated'));
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      }
+    }, err => {
+      if (err) {
+        throw err;
+      }
+    }, data => {
+      return data;
+    })
+  }
+  changeImageName = null;
 }
