@@ -12,15 +12,7 @@ const config = {
     password: 'codefront2017'
   },
   private: true,
-  enableAutoRefresh: true,
-  firebase: {
-    apiKey: "AIzaSyAsHUjyfOzAKLUxVJK19fdKw9r_Df-y8cE",
-    authDomain: "melissas-blog.firebaseapp.com",
-    databaseURL: "https://melissas-blog.firebaseio.com",
-    projectId: "melissas-blog",
-    storageBucket: "melissas-blog.appspot.com",
-    messagingSenderId: "440662663872"
-  }
+  enableAutoRefresh: true
 }
 
 module.exports = config;
